@@ -9,6 +9,8 @@
         <UsernameInput />
         <SelectLanguage />
 
+        <EditData />
+
         <router-link to="/settings" class="settings-button" :title="$t('settings')">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -29,6 +31,7 @@
 <script setup>
 import SelectLanguage from './SelectLanguage.vue'
 import UsernameInput from './UsernameInput.vue'
+import EditData from './EditData.vue'
 import { cdxIconSettings } from '@wikimedia/codex-icons'
 </script>
 

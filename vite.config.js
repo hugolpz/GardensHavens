@@ -7,7 +7,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 // https://vite.dev/config/
 export default defineConfig(({ command }) => {
   const plugins = [vue()]
-  
+
   // Only add devtools in development
   if (command !== 'build') {
     plugins.push(vueDevTools())
@@ -27,9 +27,9 @@ export default defineConfig(({ command }) => {
       sourcemap: false,
       rollupOptions: {
         output: {
-          manualChunks: undefined
-        }
-      }
+          manualChunks: undefined,
+        },
+      },
     },
   }
 })
