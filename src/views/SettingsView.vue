@@ -1,0 +1,213 @@
+<template>
+  <div class="settings-view">
+    <div class="settings-container">
+      <div class="settings-header">
+        <h2>{{ $t('settings') }}</h2>
+        <router-link to="/" class="back-button"> ← {{ $t('backToGallery') }} </router-link>
+      </div>
+
+      <div class="settings-section">
+        <h3>{{ $t('wikimediaIntegration') }}</h3>
+        <p class="settings-description">{{ $t('wikimediaDescription') }}</p>
+
+        <div class="username-input">
+          <label for="wikimedia-username" class="input-label">
+            {{ $t('wikimediaUsername') }}:
+          </label>
+          <input
+            id="wikimedia-username"
+            v-model="settings.wikimediaUsername"
+            type="text"
+            class="username-field"
+            :placeholder="$t('wikimediaUsernamePlaceholder')"
+          />
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>{{ $t('visibilitySettings') }}</h3>
+        <p class="settings-description">{{ $t('visibilityDescription') }}</p>
+
+        <div class="settings-options">
+          <label class="setting-option">
+            <input v-model="settings.showTaxonImage" type="checkbox" class="setting-checkbox" />
+            <span class="setting-label">{{ $t('showTaxonImage') }}</span>
+          </label>
+
+          <label class="setting-option">
+            <input v-model="settings.showTaxonRange" type="checkbox" class="setting-checkbox" />
+            <span class="setting-label">{{ $t('showTaxonRange') }}</span>
+          </label>
+
+          <label class="setting-option">
+            <input
+              v-model="settings.showConservationStatus"
+              type="checkbox"
+              class="setting-checkbox"
+            />
+            <span class="setting-label">{{ $t('showConservationStatus') }}</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="settings-footer">
+        <p class="info-text">{{ $t('settingsSaved') }}</p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { useSettingsStore } from '@/stores/settings'
+
+const settings = useSettingsStore()
+</script>
+
+<style scoped>
+.settings-view {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.settings-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.settings-header h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.back-button {
+  color: #36c;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+
+.back-button:hover {
+  color: #25a;
+}
+
+.settings-section {
+  margin-bottom: 2rem;
+}
+
+.settings-section h3 {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.settings-description {
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.settings-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.setting-option {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.setting-option:hover {
+  background-color: #e9ecef;
+}
+
+.setting-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+.setting-label {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.settings-footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.info-text {
+  color: #666;
+  font-size: 0.875rem;
+  font-style: italic;
+  margin: 0;
+}
+
+.username-input {
+  margin-top: 1rem;
+}
+
+.input-label {
+  display: block;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.username-field {
+  width: 100%;
+  max-width: 300px;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.username-field:focus {
+  outline: none;
+  border-color: #36c;
+}
+
+@media (max-width: 768px) {
+  .settings-view {
+    padding: 1rem;
+  }
+
+  .settings-container {
+    padding: 1.5rem;
+  }
+
+  .settings-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .settings-header h2 {
+    font-size: 1.5rem;
+  }
+}
+</style>
