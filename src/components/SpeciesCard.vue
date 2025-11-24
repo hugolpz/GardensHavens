@@ -43,7 +43,7 @@
       </div>
 
       <!-- Long Description -->
-      <div v-if="cardData.longDescription" class="long-description">
+      <div v-if="settings.showLongDescription && cardData.longDescription" class="long-description">
         <div class="ribbon ribbon-label" :style="{ backgroundColor: groupColor }">
           Long Description
         </div>

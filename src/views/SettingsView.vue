@@ -47,6 +47,15 @@
             />
             <span class="setting-label">{{ $t('showConservationStatus') }}</span>
           </label>
+
+          <label class="setting-option">
+            <input
+              v-model="settings.showLongDescription"
+              type="checkbox"
+              class="setting-checkbox"
+            />
+            <span class="setting-label">{{ $t('showLongDescription') }}</span>
+          </label>
         </div>
       </div>
 

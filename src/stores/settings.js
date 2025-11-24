@@ -6,6 +6,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const showTaxonImage = ref(loadSetting('showTaxonImage', true))
   const showTaxonRange = ref(loadSetting('showTaxonRange', true))
   const showConservationStatus = ref(loadSetting('showConservationStatus', true))
+  const showLongDescription = ref(loadSetting('showLongDescription', true))
   const wikimediaUsername = ref(loadSetting('wikimedia-username', ''))
 
   // Watch for changes and persist to localStorage
@@ -19,6 +20,10 @@ export const useSettingsStore = defineStore('settings', () => {
 
   watch(showConservationStatus, (value) => {
     saveSetting('showConservationStatus', value)
+  })
+
+  watch(showLongDescription, (value) => {
+    saveSetting('showLongDescription', value)
   })
 
   watch(wikimediaUsername, (value) => {
@@ -38,6 +43,7 @@ export const useSettingsStore = defineStore('settings', () => {
     showTaxonImage,
     showTaxonRange,
     showConservationStatus,
+    showLongDescription,
     wikimediaUsername,
   }
 })
