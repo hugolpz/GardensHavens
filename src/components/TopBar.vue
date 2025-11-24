@@ -3,6 +3,7 @@
     <div class="topbar-container">
       <router-link to="/" class="topbar-title">
         <h1>{{ $t('gardenSpecies') }}</h1>
+        <p class="tagline">{{ $t('tagline') }}</p>
       </router-link>
 
       <div class="topbar-actions">
@@ -65,6 +66,14 @@ import { cdxIconSettings } from '@wikimedia/codex-icons'
   font-weight: 700;
   margin: 0;
   transition: opacity 0.2s;
+}
+
+.topbar-title .tagline {
+  font-size: 0.875rem;
+  font-weight: 400;
+  margin: 0;
+  opacity: 0.8;
+  font-style: italic;
 }
 
 .topbar-title:hover h1 {

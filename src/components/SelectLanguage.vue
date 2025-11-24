@@ -26,6 +26,7 @@ const languageNames = {
   fr: 'Français',
   es: 'Español',
   zh: '中文',
+  ko: '한국어',
 }
 
 function getLanguageName(localeCode) {

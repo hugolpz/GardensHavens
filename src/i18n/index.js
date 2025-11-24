@@ -7,6 +7,7 @@ const i18n = createI18n({
   messages: {
     en: {
       gardenSpecies: 'Gardens Havens',
+      tagline: 'Gallery of your biodiversity neighborhood, Wikimedia-boosted.',
       settings: 'Settings',
       backToGallery: 'Back to Gallery',
       visibilitySettings: 'Visibility Settings',
@@ -23,6 +24,7 @@ const i18n = createI18n({
     },
     fr: {
       gardenSpecies: 'Jardins Refuges',
+      tagline: 'Galerie de votre biodiversité de quartier, boostée par Wikimedia.',
       settings: 'Paramètres',
       backToGallery: 'Retour à la galerie',
       visibilitySettings: 'Paramètres de visibilité',
@@ -39,6 +41,7 @@ const i18n = createI18n({
     },
     es: {
       gardenSpecies: 'Jardines Refugios',
+      tagline: 'Galería de la biodiversidad de su barrio, potenciada por Wikimedia.',
       settings: 'Configuración',
       backToGallery: 'Volver a la galería',
       visibilitySettings: 'Configuración de visibilidad',
@@ -56,6 +59,7 @@ const i18n = createI18n({
     },
     zh: {
       gardenSpecies: '花园庇护所',
+      tagline: '您的社区生物多样性画廊，维基媒体加持。',
       settings: '设置',
       backToGallery: '返回画廊',
       visibilitySettings: '可见性设置',
@@ -69,6 +73,23 @@ const i18n = createI18n({
       wikimediaUsername: '维基媒体用户名',
       wikimediaUsernamePlaceholder: '输入您的用户名 (例如: Yug)',
       inputWikimediaUsername: '输入您的维基媒体用户名',
+    },
+    ko: {
+      gardenSpecies: '정원 피난처',
+      tagline: '위키미디어로 강화된 당신의 동네 생물다양성 갤러리.',
+      settings: '설정',
+      backToGallery: '갤러리로 돌아가기',
+      visibilitySettings: '표시 설정',
+      visibilityDescription: '종 카드에 표시할 정보를 선택하세요',
+      showTaxonImage: '분류군 이미지',
+      showTaxonRange: '분류군 분포',
+      showConservationStatus: '보존 상태',
+      settingsSaved: '설정이 자동으로 저장됩니다',
+      wikimediaIntegration: '위키미디어 통합',
+      wikimediaDescription: '위키미디어 사용자명을 입력하여 사용자 정의 종 목록을 불러오세요',
+      wikimediaUsername: '위키미디어 사용자명',
+      wikimediaUsernamePlaceholder: '사용자명을 입력하세요 (예: Yug)',
+      inputWikimediaUsername: '위키미디어 사용자명을 입력하세요',
     },
   },
 })
