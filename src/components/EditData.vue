@@ -4,7 +4,7 @@
     target="_blank"
     rel="noopener noreferrer"
     class="edit-data-button"
-    :title="hasUsername ? 'Edit your species list' : 'Login to Wikimedia to create a species list'"
+    :title="hasUsername ? $t('editSpeciesListLoggedIn') : $t('editSpeciesListLoggedOut')"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -76,5 +76,16 @@ const editUrl = computed(() => {
 
 .edit-icon {
   fill: currentColor;
+}
+
+@media (max-width: 480px) {
+  .edit-data-button {
+    padding: 0.4rem;
+  }
+
+  .edit-icon {
+    width: 18px;
+    height: 18px;
+  }
 }
 </style>

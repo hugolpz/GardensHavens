@@ -1,7 +1,7 @@
 <template>
   <div class="gallery-view">
     <div v-if="loading" class="gallery-loading">
-      <p>Loading species list...</p>
+      <p>{{ $t('loadingSpeciesList') }}</p>
     </div>
 
     <div v-else-if="error" class="gallery-error">

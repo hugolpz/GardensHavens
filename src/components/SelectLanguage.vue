@@ -86,4 +86,18 @@ onMounted(() => {
   border-color: white;
   box-shadow: 0 0 0 1px white;
 }
+
+@media (max-width: 768px) {
+  .language-select {
+    padding: 0.4rem 0.8rem;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .language-select {
+    padding: 0.35rem 0.6rem;
+    font-size: 12px;
+  }
+}
 </style>

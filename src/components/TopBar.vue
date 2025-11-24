@@ -121,5 +121,47 @@ import { cdxIconSettings } from '@wikimedia/codex-icons'
   .topbar-title h1 {
     font-size: 1.25rem;
   }
+
+  .topbar-title .tagline {
+    font-size: 0.8rem;
+  }
+
+  .topbar-actions {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar-container {
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .topbar-title h1 {
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  .topbar-title .tagline {
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  .topbar-actions {
+    gap: 0.5rem;
+    justify-content: space-between;
+  }
+
+  .settings-button {
+    padding: 0.4rem;
+  }
+
+  .settings-icon {
+    width: 18px;
+    height: 18px;
+  }
 }
 </style>

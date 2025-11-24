@@ -1,7 +1,7 @@
 <template>
   <div class="card" :style="{ borderColor: groupColor }">
     <div v-if="loading" class="card-loading">
-      <p>Loading...</p>
+      <p>{{ $t('loading') }}</p>
     </div>
 
     <div v-else-if="error" class="card-error">
@@ -24,20 +24,24 @@
 
       <!-- Image Section -->
       <div v-if="settings.showTaxonImage && cardData.image" class="image-section">
-        <div class="ribbon ribbon-label" :style="{ backgroundColor: groupColor }">Image</div>
+        <div class="ribbon ribbon-label" :style="{ backgroundColor: groupColor }">
+          {{ $t('image') }}
+        </div>
         <img :src="cardData.image" :alt="cardData.taxonName" class="image" />
       </div>
 
       <!-- Range Map Section -->
       <div v-if="settings.showTaxonRange && cardData.rangeMap" class="image-section">
-        <div class="ribbon ribbon-label" :style="{ backgroundColor: groupColor }">Range</div>
+        <div class="ribbon ribbon-label" :style="{ backgroundColor: groupColor }">
+          {{ $t('range') }}
+        </div>
         <img :src="cardData.rangeMap" :alt="`Range of ${cardData.taxonName}`" class="image" />
       </div>
 
       <!-- Short Description -->
       <div v-if="cardData.shortDescription" class="short-description">
         <div class="ribbon ribbon-label" :style="{ backgroundColor: groupColor }">
-          Short Description
+          {{ $t('shortDescription') }}
         </div>
         <div class="description-content">{{ cardData.shortDescription }}</div>
       </div>
@@ -45,7 +49,7 @@
       <!-- Long Description -->
       <div v-if="settings.showLongDescription && cardData.longDescription" class="long-description">
         <div class="ribbon ribbon-label" :style="{ backgroundColor: groupColor }">
-          Long Description
+          {{ $t('longDescription') }}
         </div>
         <div class="description-content" v-html="cardData.longDescription"></div>
       </div>
@@ -57,7 +61,7 @@
           target="_blank"
           rel="noopener noreferrer"
           class="footer-link"
-          title="View on Wikipedia"
+          :title="$t('viewOnWikipedia')"
         >
           <img src="/assets/wikipedia.svg" alt="Wikipedia" class="footer-icon" />
         </a>
@@ -68,7 +72,7 @@
           target="_blank"
           rel="noopener noreferrer"
           class="footer-link"
-          title="View on Wikidata"
+          :title="$t('viewOnWikidata')"
         >
           <img src="/assets/wikidata.svg" alt="Wikidata" class="footer-icon" />
         </a>
@@ -95,7 +99,7 @@ const props = defineProps({
   },
 })
 
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const settings = useSettingsStore()
 const cardData = ref(null)
 const loading = ref(true)
@@ -116,7 +120,7 @@ async function loadData() {
     const data = await fetchCardData(props.binomialName, locale.value)
     cardData.value = data
   } catch (err) {
-    error.value = 'Failed to load species data'
+    error.value = t('failedToLoadSpeciesData')
     console.error(err)
   } finally {
     loading.value = false

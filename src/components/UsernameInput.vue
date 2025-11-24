@@ -27,7 +27,8 @@
       @mouseleave="isHovering = false"
       :class="{ hovered: isHovering }"
     >
-      Username ?
+      <span class="username-text-desktop">Username ?</span>
+      <span class="username-text-mobile">User?</span>
     </div>
   </div>
 </template>
@@ -128,5 +129,41 @@ onMounted(() => {
   background-color: white;
   color: rgb(44, 62, 80);
   border-color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+  .username-input,
+  .username-display {
+    min-width: 120px;
+    font-size: 13px;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .username-input,
+  .username-display {
+    min-width: 100px;
+    font-size: 12px;
+    padding: 0.35rem 0.6rem;
+  }
+
+  .username-text-desktop {
+    display: none;
+  }
+
+  .username-text-mobile {
+    display: inline;
+  }
+}
+
+@media (min-width: 481px) {
+  .username-text-desktop {
+    display: inline;
+  }
+
+  .username-text-mobile {
+    display: none;
+  }
 }
 </style>
