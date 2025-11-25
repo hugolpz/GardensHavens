@@ -46,7 +46,7 @@
       <!-- Short Description -->
       <div v-if="cardData.shortDescription" class="short-description">
         <div class="ribbon ribbon-label" :style="{ backgroundColor: groupColor }">
-          {{ $t('settings-visibility-short-description') }}
+          {{ $t('settings-visibility-description-short') }}
         </div>
         <div class="description-content">{{ cardData.shortDescription }}</div>
       </div>
@@ -57,7 +57,7 @@
         class="medium-description"
       >
         <div class="ribbon ribbon-label" :style="{ backgroundColor: groupColor }">
-          {{ $t('settings-visibility-medium-description') }}
+          {{ $t('settings-visibility-description-medium') }}
         </div>
         <div class="description-content">{{ cardData.mediumDescription }}</div>
       </div>
@@ -65,7 +65,7 @@
       <!-- Long Description -->
       <div v-if="settings.showLongDescription && cardData.longDescription" class="long-description">
         <div class="ribbon ribbon-label" :style="{ backgroundColor: groupColor }">
-          {{ $t('settings-visibility-long-description') }}
+          {{ $t('settings-visibility-description-long') }}
         </div>
         <div class="description-content" v-html="cardData.longDescription"></div>
       </div>
@@ -262,7 +262,7 @@ watch(locale, () => {
 
 .image {
   width: 100%;
-  height: 230px;
+  max-height: 330px;
   object-fit: cover;
   margin: 3px;
 }

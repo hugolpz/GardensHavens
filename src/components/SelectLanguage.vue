@@ -23,10 +23,11 @@ const selectedLocale = ref(locale.value)
 
 const languageNames = {
   en: 'English',
-  fr: 'Français',
   es: 'Español',
-  zh: '中文',
+  fr: 'Français',
+  ja: '日本語',
   ko: '한국어',
+  zh: '中文',
 }
 
 function getLanguageName(localeCode) {

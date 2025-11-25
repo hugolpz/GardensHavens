@@ -56,7 +56,7 @@
               type="checkbox"
               class="setting-checkbox"
             />
-            <span class="setting-label">{{ $t('settings-visibility-medium-description') }}</span>
+            <span class="setting-label">{{ $t('settings-visibility-description-medium') }}</span>
           </label>
 
           <label class="setting-option">
@@ -65,7 +65,7 @@
               type="checkbox"
               class="setting-checkbox"
             />
-            <span class="setting-label">{{ $t('settings-visibility-long-description') }}</span>
+            <span class="setting-label">{{ $t('settings-visibility-description-long') }}</span>
           </label>
         </div>
       </div>

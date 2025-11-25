@@ -1,7 +1,7 @@
 <template>
   <div class="gallery-view">
     <div v-if="loading" class="gallery-loading">
-      <p>{{ $t('status-loading-species-list') }}</p>
+      <p>{{ $t('status-loading-list') }}</p>
     </div>
 
     <div v-else-if="error" class="gallery-error">
@@ -49,7 +49,7 @@ onMounted(async () => {
   try {
     placesData.value = await fetchBiolist()
   } catch (err) {
-    error.value = t('error-loading-species-data')
+    error.value = t('status-loading-list-error')
     console.error(err)
   } finally {
     loading.value = false

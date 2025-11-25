@@ -14,7 +14,7 @@ export async function fetchBiolist() {
       // Wrap default biolist in place format for consistency
       return [
         {
-          place: 'Default Species List',
+          place: 'Default list',
           lat: null,
           lon: null,
           list: defaultBiolist,
@@ -36,7 +36,7 @@ export async function fetchBiolist() {
     // Wrap default biolist in place format for consistency
     return [
       {
-        place: 'Default Species List',
+        place: 'Default list',
         lat: null,
         lon: null,
         list: defaultBiolist,
@@ -47,7 +47,7 @@ export async function fetchBiolist() {
     // Wrap default biolist in place format for consistency
     return [
       {
-        place: 'Default Species List',
+        place: 'Default list',
         lat: null,
         lon: null,
         list: defaultBiolist,
