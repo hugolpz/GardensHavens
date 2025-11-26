@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useSettingsStore } from '@/stores/settings'
 import { cdxIconEdit } from '@wikimedia/codex-icons'
 
@@ -30,12 +30,57 @@ const hasUsername = computed(
   () => settings.wikimediaUsername && settings.wikimediaUsername.trim() !== '',
 )
 
+const pageExists = ref(null) // null = checking, true = exists, false = doesn't exist
+
+/**
+ * Check if a user's GardensHavens page exists on Meta Wikimedia
+ */
+async function checkPageExists(username) {
+  try {
+    const pageTitle = `User:${username}/GardensHavens`
+    const url = `https://meta.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent(pageTitle)}&format=json&origin=*`
+
+    const response = await fetch(url)
+    const data = await response.json()
+
+    // Page exists if it's not marked as "missing"
+    const page = Object.values(data.query.pages)[0]
+    return !page.missing
+  } catch (error) {
+    console.error('Error checking page existence:', error)
+    return false // Default to creation mode if check fails
+  }
+}
+
+// Watch for username changes and check page existence
+watch(
+  hasUsername,
+  async (newHasUsername) => {
+    if (newHasUsername) {
+      pageExists.value = null // Set to checking state
+      pageExists.value = await checkPageExists(settings.wikimediaUsername)
+    } else {
+      pageExists.value = null
+    }
+  },
+  { immediate: true },
+)
+
 const editUrl = computed(() => {
   if (!hasUsername.value) {
-    return 'https://meta.wikimedia.org/w/index.php?title=Special:UserLogin&returnto=Main+Page'
+    return `https://meta.wikimedia.org/w/index.php?title=Special:UserLogin&returnto=User:${encodeURIComponent(username)}/GardensHavens`
   }
+
   const username = settings.wikimediaUsername
-  return `https://meta.wikimedia.org/w/index.php?title=User:${encodeURIComponent(username)}/GardensHavens&action=edit&editintro=User:Yug/Guideline&preload=User:Yug/Placeholder`
+  const baseUrl = `https://meta.wikimedia.org/w/index.php?title=User:${encodeURIComponent(username)}/GardensHavens`
+
+  if (pageExists.value === true) {
+    // Page exists - direct edit link with guideline intro
+    return `${baseUrl}&action=edit&veswitched=1&editintro=User:Yug/Guideline`
+  } else {
+    // Page doesn't exist or we're still checking - create with template
+    return `${baseUrl}&action=edit&veswitched=1&editintro=User:Yug/Guideline&preload=User:Yug/Guideline/Placeholder`
+  }
 })
 </script>
 
