@@ -6,7 +6,7 @@
       class="language-select"
       @change="changeLanguage"
     >
-      <option v-for="locale in locales" :key="locale" :value="locale">
+      <option v-for="locale in Object.keys(languageNames)" :key="locale" :value="locale">
         {{ getLanguageName(locale) }}
       </option>
     </select>
@@ -16,7 +16,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { locales } from '@/data/constants'
 
 const { locale } = useI18n()
 const selectedLocale = ref(locale.value)
@@ -29,6 +28,8 @@ const languageNames = {
   ko: '한국어',
   zh: '中文',
 }
+
+const locales = Object.keys(languageNames)
 
 function getLanguageName(localeCode) {
   return languageNames[localeCode] || localeCode

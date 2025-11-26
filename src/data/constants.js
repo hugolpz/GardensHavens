@@ -1,14 +1,12 @@
-export const locales = ['en', 'fr', 'es', 'zh', 'ko']
-
 export const datalist = [
-  { binomial: 'Canis lupus familiaris', category: 'mammal' },
+  { binomial: 'Canis lupus familiaris' },
   { binomial: 'Felis catus' },
-  { binomial: 'Pica pica', category: 'bird' },
-  { binomial: 'Podarcis muralis', category: 'reptile' },
-  { binomial: 'Quercus robur', category: 'tree' },
+  { binomial: 'Pica pica' },
+  { binomial: 'Podarcis muralis' },
+  { binomial: 'Quercus robur' },
   { binomial: 'Prunus avium' },
-  { binomial: 'Poa pratensis', category: 'grass' },
-  { binomial: 'Taraxacum officinale', category: 'plant' },
+  { binomial: 'Poa pratensis' },
+  { binomial: 'Taraxacum officinale' },
 ]
 
 // Re-export category functionality from centralized location
@@ -19,6 +17,3 @@ export {
   getCategoryBackgroundColor,
   getCategoryInfo,
 } from '@/utils/assessCategory.js'
-
-// Legacy alias for backward compatibility
-export const biolist = datalist
