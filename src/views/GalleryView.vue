@@ -8,22 +8,33 @@
       <p>{{ error }}</p>
     </div>
 
-    <div v-else class="locations-container">
-      <div v-for="location in locationsData" :key="location.location" class="location-section">
-        <!-- Location Header -->
-        <div class="location-header">
-          <h2 class="location-title">{{ location.location }}</h2>
-          <div v-if="location.lat && location.lon" class="location-coordinates">
+    <div v-else class="collections-container">
+      <div
+        v-for="collection in collectionsData"
+        :key="collection['collection-title']"
+        class="collection-section"
+      >
+        <!-- collection Header -->
+        <div class="collection-header">
+          <h2 class="collection-title">{{ collection['collection-title'] }}</h2>
+          <div v-if="collection.lat && collection.lon" class="collection-coordinates">
             <span class="coordinates">
-              📍 {{ location.lat.toFixed(3) }}, {{ location.lon.toFixed(3) }}
+              📍 {{ collection.lat.toFixed(3) }}, {{ collection.lon.toFixed(3) }}
             </span>
+            <Globe
+              :lat="collection.lat"
+              :lon="collection.lon"
+              :title="collection['collection-title']"
+              :width="64"
+              class="collection-globe-wp"
+            />
           </div>
         </div>
 
-        <!-- Items Grid for this location -->
+        <!-- Items Grid for this collection -->
         <div class="gallery-grid" :class="{ 'gallery-grid--compact': settings.compactView }">
           <ItemCard
-            v-for="item in location.list"
+            v-for="item in collection.list"
             :key="item.binomial"
             :binomial-name="item.binomial"
             :group="item.category || item.group || 'unknown'"
@@ -41,16 +52,23 @@ import { useI18n } from 'vue-i18n'
 import { fetchDatalist } from '@/utils/fetchDatalist'
 import { useSettingsStore } from '@/stores/settings'
 import ItemCard from '@/components/ItemCard.vue'
+<<<<<<< HEAD
+import Globe from '@/components/Globe.vue'
+import GlobeWP from '@/components/GlobeWP.vue'
+=======
+import GlobeLocalisator from '@/components/GlobeLocalisator.vue'
+import CollectionNav from '@/components/CollectionNav.vue'
+>>>>>>> 16170a9 (minor globe improvement)
 
 const { t } = useI18n()
 const settings = useSettingsStore()
-const locationsData = ref([])
+const collectionsData = ref([])
 const loading = ref(true)
 const error = ref(null)
 
 onMounted(async () => {
   try {
-    locationsData.value = await fetchDatalist()
+    collectionsData.value = await fetchDatalist()
   } catch (err) {
     error.value = t('status-loading-list-error')
     console.error(err)
@@ -78,20 +96,20 @@ onMounted(async () => {
   color: #d33;
 }
 
-.locations-container {
+.collections-container {
   display: flex;
   flex-direction: column;
   gap: 3rem;
 }
 
-.location-section {
+.collection-section {
   background-color: #f8f9fa;
   border-radius: 12px;
   padding: 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.location-header {
+.collection-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -100,16 +118,25 @@ onMounted(async () => {
   border-bottom: 2px solid #e9ecef;
 }
 
-.location-title {
+.collection-title {
   font-size: 1.75rem;
   font-weight: 700;
   color: #2c3e50;
   margin: 0;
 }
 
-.location-coordinates {
+.collection-location {
   display: flex;
   align-items: center;
+  gap: 1rem;
+}
+
+.collection-globe {
+  flex-shrink: 0;
+}
+
+.collection-globe-wp {
+  flex-shrink: 0;
 }
 
 .coordinates {
@@ -137,17 +164,21 @@ onMounted(async () => {
     padding: 0;
   }
 
-  .location-section {
+  .collection-section {
     padding: 1.5rem;
   }
 
-  .location-header {
+  .collection-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
 
-  .location-title {
+  .collection-location {
+    gap: 0.75rem;
+  }
+
+  .collection-title {
     font-size: 1.5rem;
   }
 
@@ -167,12 +198,12 @@ onMounted(async () => {
     padding: 0;
   }
 
-  .location-section {
+  .collection-section {
     padding: 1rem;
     border-radius: 8px;
   }
 
-  .location-title {
+  .collection-title {
     font-size: 1.25rem;
   }
 
