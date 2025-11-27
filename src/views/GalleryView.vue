@@ -8,38 +8,44 @@
       <p>{{ error }}</p>
     </div>
 
-    <div v-else class="collections-container">
-      <div
-        v-for="collection in collectionsData"
-        :key="collection['collection-title']"
-        class="collection-section"
-      >
-        <!-- collection Header -->
-        <div class="collection-header">
-          <h2 class="collection-title">{{ collection['collection-title'] }}</h2>
-          <div v-if="collection.lat && collection.lon" class="collection-coordinates">
-            <span class="coordinates">
-              📍 {{ collection.lat.toFixed(3) }}, {{ collection.lon.toFixed(3) }}
-            </span>
-            <Globe
-              :lat="collection.lat"
-              :lon="collection.lon"
-              :title="collection['collection-title']"
-              :width="64"
-              class="collection-globe-wp"
+    <div v-else>
+      <!-- Sticky Collection Navigation -->
+      <CollectionNav :collections="collectionsData" />
+
+      <div class="collections-container">
+        <div
+          v-for="(collection, index) in collectionsData"
+          :key="collection['collection-title']"
+          :id="`collection-${index}`"
+          class="collection-section"
+        >
+          <!-- collection Header -->
+          <div class="collection-header">
+            <h2 class="collection-title">{{ collection['collection-title'] }}</h2>
+            <div v-if="collection.lat && collection.lon" class="collection-coordinates">
+              <span class="coordinates">
+                📍 {{ collection.lat.toFixed(3) }}, {{ collection.lon.toFixed(3) }}
+              </span>
+              <Globe
+                :lat="collection.lat"
+                :lon="collection.lon"
+                :title="collection['collection-title']"
+                :width="64"
+                class="collection-globe-wp"
+              />
+            </div>
+          </div>
+
+          <!-- Items Grid for this collection -->
+          <div class="gallery-grid" :class="{ 'gallery-grid--compact': settings.compactView }">
+            <ItemCard
+              v-for="item in collection.list"
+              :key="item.binomial"
+              :binomial-name="item.binomial"
+              :group="item.category || item.group || 'unknown'"
+              :compact="settings.compactView"
             />
           </div>
-        </div>
-
-        <!-- Items Grid for this collection -->
-        <div class="gallery-grid" :class="{ 'gallery-grid--compact': settings.compactView }">
-          <ItemCard
-            v-for="item in collection.list"
-            :key="item.binomial"
-            :binomial-name="item.binomial"
-            :group="item.category || item.group || 'unknown'"
-            :compact="settings.compactView"
-          />
         </div>
       </div>
     </div>
@@ -53,7 +59,7 @@ import { fetchDatalist } from '@/utils/fetchDatalist'
 import { useSettingsStore } from '@/stores/settings'
 import ItemCard from '@/components/ItemCard.vue'
 import Globe from '@/components/Globe.vue'
-import GlobeWP from '@/components/GlobeWP.vue'
+import CollectionNav from '@/components/CollectionNav.vue'
 
 const { t } = useI18n()
 const settings = useSettingsStore()
@@ -102,6 +108,7 @@ onMounted(async () => {
   border-radius: 12px;
   padding: 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  scroll-margin-top: 100px; /* Space for sticky nav */
 }
 
 .collection-header {
@@ -161,6 +168,7 @@ onMounted(async () => {
 
   .collection-section {
     padding: 1.5rem;
+    scroll-margin-top: 80px;
   }
 
   .collection-header {
@@ -196,6 +204,7 @@ onMounted(async () => {
   .collection-section {
     padding: 1rem;
     border-radius: 8px;
+    scroll-margin-top: 70px;
   }
 
   .collection-title {
