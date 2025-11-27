@@ -10,6 +10,10 @@ export const useSettingsStore = defineStore('settings', () => {
   const showLongDescription = ref(loadSetting('showLongDescription', true))
   const wikimediaUsername = ref(loadSetting('wikimedia-username', ''))
 
+  // Detect mobile and set default compact view
+  const isMobile = window.innerWidth <= 768
+  const compactView = ref(loadSetting('compactView', isMobile))
+
   // Watch for changes and persist to localStorage
   watch(showTaxonImage, (value) => {
     saveSetting('showTaxonImage', value)
@@ -35,6 +39,14 @@ export const useSettingsStore = defineStore('settings', () => {
     saveSetting('wikimedia-username', value)
   })
 
+  watch(compactView, (value) => {
+    saveSetting('compactView', value)
+  })
+
+  function toggleCompactView() {
+    compactView.value = !compactView.value
+  }
+
   function loadSetting(key, defaultValue) {
     const stored = localStorage.getItem(key)
     return stored !== null ? JSON.parse(stored) : defaultValue
@@ -51,5 +63,7 @@ export const useSettingsStore = defineStore('settings', () => {
     showMediumDescription,
     showLongDescription,
     wikimediaUsername,
+    compactView,
+    toggleCompactView,
   }
 })

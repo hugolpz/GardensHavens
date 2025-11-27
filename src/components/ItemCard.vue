@@ -1,8 +1,9 @@
 <template>
   <div
     class="card"
+    :class="{ 'card--compact': compact }"
+    :id="`item-card-${binomialName.replace(/ /g, '_')}`"
     :style="{ borderColor: categoryColor, backgroundColor: categoryBackgroundColor }"
-    :class="[`card--category-${currentCategory}`]"
   >
     <div v-if="loading" class="card-loading">
       <p>{{ $t('status-loading') }}</p>
@@ -30,7 +31,7 @@
       <!-- Image Section -->
       <div v-if="settings.showTaxonImage && cardData.image" class="image-section">
         <div class="ribbon ribbon-label" :style="{ backgroundColor: categoryColor }">
-          {{ $t('settings-visibility-taxon-image') }}
+          {{ $t('settings-visibility-item-image') }}
         </div>
         <img :src="cardData.image" :alt="cardData.taxonName" class="image" />
       </div>
@@ -38,28 +39,25 @@
       <!-- Range Map Section -->
       <div v-if="settings.showTaxonRange && cardData.rangeMap" class="image-section">
         <div class="ribbon ribbon-label" :style="{ backgroundColor: categoryColor }">
-          {{ $t('settings-visibility-taxon-range') }}
+          {{ $t('settings-visibility-item-range') }}
         </div>
         <img :src="cardData.rangeMap" :alt="`Range of ${cardData.taxonName}`" class="image" />
       </div>
 
       <!-- Short Description -->
-      <div v-if="cardData.shortDescription" class="short-description">
+      <div
+        v-if="
+          cardData.shortDescription ||
+          (settings.showMediumDescription && cardData.mediumDescription)
+        "
+        class="short-description"
+      >
         <div class="ribbon ribbon-label" :style="{ backgroundColor: categoryColor }">
           {{ $t('settings-visibility-description-short') }}
         </div>
-        <div class="description-content">{{ cardData.shortDescription }}</div>
-      </div>
-
-      <!-- Medium Description -->
-      <div
-        v-if="settings.showMediumDescription && cardData.mediumDescription"
-        class="medium-description"
-      >
-        <div class="ribbon ribbon-label" :style="{ backgroundColor: categoryColor }">
-          {{ $t('settings-visibility-description-medium') }}
+        <div class="description-content">
+          wd:{{ cardData.shortDescription }}<br />wp:{{ cardData.mediumDescription }}
         </div>
-        <div class="description-content">{{ cardData.mediumDescription }}</div>
       </div>
 
       <!-- Long Description -->
@@ -116,6 +114,10 @@ const props = defineProps({
   group: {
     type: String,
     default: 'plant',
+  },
+  compact: {
+    type: Boolean,
+    default: false,
   },
 })
 
@@ -185,6 +187,50 @@ watch(locale, () => {
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Compact view styles */
+.card--compact {
+  max-width: 300px;
+}
+
+.card--compact .ribbon {
+  padding: 0.5rem 0.75rem;
+  font-size: 14px;
+}
+
+.card--compact .common-name-row {
+  padding: 0.5rem 0.75rem;
+  font-size: 12px;
+}
+
+.card--compact .image {
+  max-height: 200px;
+}
+
+.card--compact .description-content {
+  padding: 0.75rem;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.card--compact .card-footer {
+  padding: 0.5rem 0.75rem;
+}
+
+.card--compact .footer-icon {
+  width: 20px;
+}
+
+.card--compact .category-emoji {
+  width: 1.5em;
+  height: 1.5em;
+  font-size: 1em;
+}
+
+.card--compact .ribbon-label {
+  padding: 0.375rem 0.75rem;
+  font-size: 12px;
 }
 
 .card-loading,
@@ -268,7 +314,6 @@ watch(locale, () => {
   width: 100%;
   max-height: 330px;
   object-fit: cover;
-  margin: 3px;
 }
 
 .short-description,

@@ -9,6 +9,7 @@
       <div class="topbar-actions">
         <UsernameInput />
         <SelectLanguage />
+        <CompactButton />
         <InstallButton />
         <EditData />
 
@@ -34,6 +35,7 @@ import SelectLanguage from './SelectLanguage.vue'
 import UsernameInput from './UsernameInput.vue'
 import EditData from './EditData.vue'
 import InstallButton from './InstallButton.vue'
+import CompactButton from './CompactButton.vue'
 import { cdxIconSettings } from '@wikimedia/codex-icons'
 </script>
 

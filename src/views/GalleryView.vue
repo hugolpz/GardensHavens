@@ -21,12 +21,13 @@
         </div>
 
         <!-- Items Grid for this location -->
-        <div class="gallery-grid">
+        <div class="gallery-grid" :class="{ 'gallery-grid--compact': settings.compactView }">
           <ItemCard
             v-for="item in location.list"
             :key="item.binomial"
             :binomial-name="item.binomial"
             :group="item.category || item.group || 'unknown'"
+            :compact="settings.compactView"
           />
         </div>
       </div>
@@ -38,9 +39,11 @@
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { fetchDatalist } from '@/utils/fetchDatalist'
+import { useSettingsStore } from '@/stores/settings'
 import ItemCard from '@/components/ItemCard.vue'
 
 const { t } = useI18n()
+const settings = useSettingsStore()
 const locationsData = ref([])
 const loading = ref(true)
 const error = ref(null)
@@ -59,7 +62,6 @@ onMounted(async () => {
 
 <style scoped>
 .gallery-view {
-  max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
 }
@@ -125,9 +127,14 @@ onMounted(async () => {
   gap: 2rem;
 }
 
+.gallery-grid--compact {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
 @media (max-width: 768px) {
   .gallery-view {
-    padding: 1rem;
+    padding: 0;
   }
 
   .location-section {
@@ -145,13 +152,19 @@ onMounted(async () => {
   }
 
   .gallery-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .gallery-grid--compact {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   .gallery-view {
-    padding: 0.5rem;
+    padding: 0;
   }
 
   .location-section {
@@ -166,6 +179,16 @@ onMounted(async () => {
   .coordinates {
     font-size: 0.8rem;
     padding: 0.4rem 0.8rem;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .gallery-grid--compact {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
   }
 }
 </style>

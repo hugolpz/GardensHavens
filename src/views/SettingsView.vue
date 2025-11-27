@@ -33,12 +33,12 @@
         <div class="settings-options">
           <label class="setting-option">
             <input v-model="settings.showTaxonImage" type="checkbox" class="setting-checkbox" />
-            <span class="setting-label">{{ $t('settings-visibility-taxon-image') }}</span>
+            <span class="setting-label">{{ $t('settings-visibility-item-image') }}</span>
           </label>
 
           <label class="setting-option">
             <input v-model="settings.showTaxonRange" type="checkbox" class="setting-checkbox" />
-            <span class="setting-label">{{ $t('settings-visibility-taxon-range') }}</span>
+            <span class="setting-label">{{ $t('settings-visibility-item-range') }}</span>
           </label>
 
           <label class="setting-option">
