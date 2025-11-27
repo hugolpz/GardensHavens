@@ -2,7 +2,7 @@ import { datalist as defaultDatalist } from '@/data/constants'
 
 /**
  * Fetches the user's custom datalist from Wikimedia if available
- * @returns {Promise<Array>} The datalist array (custom locations data or default datalist wrapped)
+ * @returns {Promise<Array>} The datalist array (custom collections data or default datalist wrapped)
  */
 export async function fetchDatalist() {
   try {
@@ -11,10 +11,10 @@ export async function fetchDatalist() {
 
     if (!username) {
       console.log('No Wikimedia username found, using default datalist')
-      // Wrap default datalist in location format for consistency
+      // Wrap default datalist in collection format for consistency
       return [
         {
-          location: 'Default list',
+          'collection-title': 'Default list',
           lat: null,
           lon: null,
           list: defaultDatalist,
@@ -24,19 +24,19 @@ export async function fetchDatalist() {
 
     console.log(`Found Wikimedia username: ${username}`)
 
-    // Try to fetch the user's custom datalist (location-based format)
-    const customLocationsData = await fetchUserDatalist(username)
+    // Try to fetch the user's custom datalist (collection-based format)
+    const customcollectionsData = await fetchUserDatalist(username)
 
-    if (customLocationsData) {
-      console.log('Using custom location-based datalist from Wikimedia')
-      return customLocationsData
+    if (customcollectionsData) {
+      console.log('Using custom collection-based datalist from Wikimedia')
+      return customcollectionsData
     }
 
     console.log('No valid custom datalist found, using default')
-    // Wrap default datalist in location format for consistency
+    // Wrap default datalist in collection format for consistency
     return [
       {
-        location: 'Default list',
+        'collection-title': 'Default list',
         lat: null,
         lon: null,
         list: defaultDatalist,
@@ -44,10 +44,10 @@ export async function fetchDatalist() {
     ]
   } catch (error) {
     console.error('Error fetching datalist:', error)
-    // Wrap default datalist in location format for consistency
+    // Wrap default datalist in collection format for consistency
     return [
       {
-        location: 'Default list',
+        'collection-title': 'Default list',
         lat: null,
         lon: null,
         list: defaultDatalist,
@@ -148,20 +148,20 @@ async function fetchUserDatalist(username) {
 }
 
 /**
- * Parses wikitext in location-based format to extract location-based datalist data
+ * Parses wikitext in collection-based format to extract collection-based datalist data
  * Expected format:
- * == Location Name 1 ==
+ * == collection Name 1 ==
  * * { lat: 04.8 , lon: 86.8 }
  * * Metepeira labyrinthea
  * * Canis lupus familiaris
  *
- * == Location Name 2 ==
+ * == collection Name 2 ==
  * * { lat: 04.8 , lon: 86.8 }
  * * Vulpes vulpes
  * * Pica pica
  *
  * @param {string} wikitext - The raw wikitext content
- * @returns {Array|null} Array of location objects with structure: { location, lat, lon, list } or null if invalid
+ * @returns {Array|null} Array of collection objects with structure: { collection, lat, lon, list } or null if invalid
  */
 function parseWikitextDatalist(wikitext) {
   try {
@@ -172,7 +172,7 @@ function parseWikitextDatalist(wikitext) {
 
     // Process sections (skip first empty element)
     for (let i = 1; i < sections.length; i += 2) {
-      const locationName = sections[i].trim()
+      const collectionName = sections[i].trim()
       const content = sections[i + 1]
 
       if (!content) continue
@@ -214,10 +214,10 @@ function parseWikitextDatalist(wikitext) {
           binomial: item.trim(),
         }))
 
-      // Only add location if it has items
+      // Only add collection if it has items
       if (datalist.length > 0) {
         lists.push({
-          location: locationName,
+          'collection-title': collectionName,
           lat: lat,
           lon: lon,
           list: datalist,
@@ -227,10 +227,10 @@ function parseWikitextDatalist(wikitext) {
 
     return lists.length > 0 ? lists : null
   } catch (error) {
-    console.error('Error parsing location-based wikitext datalist:', error)
+    console.error('Error parsing collection-based wikitext datalist:', error)
     return null
   }
 }
 
-// Export the location-based parser and wikitext filter for potential standalone use
+// Export the collection-based parser and wikitext filter for potential standalone use
 export { parseWikitextDatalist, wikitextFilter }
