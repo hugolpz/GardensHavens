@@ -7,12 +7,14 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Assets
 node_modules
 .DS_Store
 dist
 dist-ssr
 coverage
 *.local
+public/assets/other
 
 # Editor directories and files
 .vscode/*
