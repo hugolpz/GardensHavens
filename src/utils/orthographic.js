@@ -58,9 +58,7 @@ export const createOrthographicGlobe = (hookId, width, title, lat, lon) => {
       .attr('cx', coords[0])
       .attr('cy', coords[1])
       .attr('r', 3)
-      .style('fill', '#ff4444')
-      .style('stroke', '#ffffff')
-      .style('stroke-width', 1.5)
+      .style('fill', '#B10000')
       .style('pointer-events', 'none')
   }
 
