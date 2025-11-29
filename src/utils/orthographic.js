@@ -16,6 +16,7 @@ import worldData from '@/data/world-110m-ids.json'
  * @returns {Object} - SVG element and utility functions
  */
 export const createOrthographicGlobe = (hookId, width, title, lat, lon) => {
+  width = width - 2
   const height = width
   const lon_central = -lon
   const lat_central = -lat
@@ -38,23 +39,57 @@ export const createOrthographicGlobe = (hookId, width, title, lat, lon) => {
     .attr('width', width)
     .attr('height', height)
 
-  // Add drag behavior
+  // Function to draw location marker
+  const drawLocationMarker = () => {
+    svg.selectAll('.location-marker').remove()
+
+    const coordinates = [lon, lat]
+
+    // Check if visible
+    const angle = d3.geoDistance(coordinates, proj.invert([width / 2, height / 2]))
+    if (angle > Math.PI / 2) return // Not visible on this hemisphere
+
+    const coords = proj(coordinates)
+    if (!coords) return
+
+    svg
+      .append('circle')
+      .attr('class', 'location-marker')
+      .attr('cx', coords[0])
+      .attr('cy', coords[1])
+      .attr('r', 3)
+      .style('fill', '#ff4444')
+      .style('stroke', '#ffffff')
+      .style('stroke-width', 1.5)
+      .style('pointer-events', 'none')
+  }
+
+  // Add drag behavior with proper rotation tracking
   const drag = d3
     .drag()
-    .on('start', function () {
+    .on('start', function (event) {
       const rotate = proj.rotate()
-      d3.select(this).datum({ x: rotate[0], y: rotate[1] })
+      d3.select(this).datum({
+        startRotate: rotate,
+        startX: event.x,
+        startY: event.y,
+      })
     })
     .on('drag', function (event) {
       const d = d3.select(this).datum()
-      const sensitivity = 0.25
-      const newRotate = [d.x - event.x * sensitivity, d.y + event.y * sensitivity, 0]
+      const sensitivity = 0.5
+      const dx = event.x - d.startX
+      const dy = event.y - d.startY
+
+      const newRotate = [
+        d.startRotate[0] + dx * sensitivity,
+        d.startRotate[1] - dy * sensitivity,
+        0,
+      ]
+
       proj.rotate(newRotate)
       svg.selectAll('path').attr('d', path)
-      svg.selectAll('.location-marker').attr('transform', (d) => {
-        const coords = proj(d.coordinates)
-        return coords ? `translate(${coords[0]}, ${coords[1]})` : null
-      })
+      drawLocationMarker()
     })
 
   svg.call(drag)
@@ -147,33 +182,6 @@ export const createOrthographicGlobe = (hookId, width, title, lat, lon) => {
     .style('fill', 'none')
     .style('stroke', '#0978AB')
     .style('stroke-width', 0.3)
-
-  // Function to draw location marker
-  const drawLocationMarker = () => {
-    svg.selectAll('.location-marker').remove()
-
-    const coordinates = [lon, lat]
-    const markerData = { coordinates }
-
-    // Check if visible
-    const angle = d3.geoDistance(coordinates, proj.invert([width / 2, height / 2]))
-    if (angle > Math.PI / 2) return // Not visible on this hemisphere
-
-    const coords = proj(coordinates)
-    if (!coords) return
-
-    svg
-      .append('circle')
-      .datum(markerData)
-      .attr('class', 'location-marker')
-      .attr('cx', coords[0])
-      .attr('cy', coords[1])
-      .attr('r', 3)
-      .style('fill', '#ff4444')
-      // .style('stroke', '#ffffff')
-      // .style('stroke-width', 1.5)
-      .style('pointer-events', 'none')
-  }
 
   // Draw initial marker
   drawLocationMarker()
