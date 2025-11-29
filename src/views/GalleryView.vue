@@ -26,7 +26,7 @@
               <span class="coordinates">
                 📍 {{ collection.lat.toFixed(3) }}, {{ collection.lon.toFixed(3) }}
               </span>
-              <Globe
+              <GlobeLocalisator
                 :lat="collection.lat"
                 :lon="collection.lon"
                 :title="collection['collection-title']"
@@ -58,7 +58,7 @@ import { useI18n } from 'vue-i18n'
 import { fetchDatalist } from '@/utils/fetchDatalist'
 import { useSettingsStore } from '@/stores/settings'
 import ItemCard from '@/components/ItemCard.vue'
-import Globe from '@/components/Globe.vue'
+import GlobeLocalisator from '@/components/GlobeLocalisator.vue'
 import CollectionNav from '@/components/CollectionNav.vue'
 
 const { t } = useI18n()
