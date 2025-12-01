@@ -19,6 +19,7 @@
     <div v-else class="card-content">
       <!-- Item Name Ribbon -->
       <div class="ribbon ribbon-with-emoji" :style="{ backgroundColor: categoryColor }">
+        <StatusIUCN :binomial="`${binomialName}`" :icon="true" />
         <span class="item-name">{{ cardData.taxonName }}</span>
         <span class="category-emoji">{{ categoryEmoji }}</span>
       </div>
@@ -68,6 +69,11 @@
         <div class="description-content" v-html="cardData.longDescription"></div>
       </div>
 
+      <!-- IUCN Status -->
+      <div v-if="settings.showConservationStatus" class="uicn-image">
+        <UicnStatus :binomial="`${binomialName}`" />
+      </div>
+
       <!-- Card Footer -->
       <div class="card-footer">
         <a
@@ -105,6 +111,8 @@ import {
   getCategoryEmoji,
 } from '@/utils/assessCategory'
 import { useSettingsStore } from '@/stores/settings'
+import UicnStatus from './StatusIUCN.vue'
+import StatusIUCN from './StatusIUCN.vue'
 
 const props = defineProps({
   binomialName: {
