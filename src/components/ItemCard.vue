@@ -2,7 +2,7 @@
   <div
     class="card"
     :class="{ 'card--compact': compact }"
-    :id="`item-card-${binomialName.replace(/ /g, '_')}`"
+    :id="`${binomialName.replace(/ /g, '_')}`"
     :style="{ borderColor: categoryColor, backgroundColor: categoryBackgroundColor }"
   >
     <div v-if="loading" class="card-loading">
@@ -96,6 +96,15 @@
         >
           <img src="/assets/wikidata.svg" alt="Wikidata" class="footer-icon" />
         </a>
+
+        <button
+          @click="copyShareLink"
+          class="footer-link footer-button"
+          :title="showCopiedTooltip ? 'Share link copied!' : 'Share this card'"
+        >
+          <img src="/assets/share.svg" alt="Share" class="footer-icon" />
+          <span v-if="showCopiedTooltip" class="copied-tooltip">Share link copied!</span>
+        </button>
       </div>
     </div>
   </div>
@@ -134,6 +143,7 @@ const settings = useSettingsStore()
 const cardData = ref(null)
 const loading = ref(true)
 const error = ref(null)
+const showCopiedTooltip = ref(false)
 
 // Use assessed category from API data when available, otherwise fall back to prop
 const currentCategory = computed(() => {
@@ -149,6 +159,25 @@ const wikipediaUrl = computed(() => {
   const lang = locale.value || 'en'
   return `https://${lang}.wikipedia.org/api/rest_v1/page/mobile-html/${encodeURIComponent(cardData.value.binomialName.replace(/ /g, '_'))}`
 })
+
+const shareUrl = computed(() => {
+  const baseUrl = window.location.origin + window.location.pathname
+  const username = settings.wikimediaUsername.replace(/ /g, '_') || 'Guest'
+  const cardId = `${props.binomialName.replace(/ /g, '_')}`
+  return `${baseUrl}#/User:${username}#${cardId}`
+})
+
+async function copyShareLink() {
+  try {
+    await navigator.clipboard.writeText(shareUrl.value)
+    showCopiedTooltip.value = true
+    setTimeout(() => {
+      showCopiedTooltip.value = false
+    }, 2000)
+  } catch (err) {
+    console.error('Failed to copy link:', err)
+  }
+}
 
 async function loadData() {
   loading.value = true
@@ -396,6 +425,13 @@ watch(locale, () => {
     background-color 0.2s ease,
     transform 0.2s ease;
   text-decoration: none;
+  position: relative;
+}
+
+.footer-button {
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .footer-link:hover {
@@ -416,5 +452,42 @@ watch(locale, () => {
 
 .footer-link:hover .footer-icon {
   opacity: 1;
+}
+
+.copied-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-bottom: 0.5rem;
+  pointer-events: none;
+  animation: fadeIn 0.2s ease;
+}
+
+.copied-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #333;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 </style>

@@ -47,6 +47,10 @@ export const useSettingsStore = defineStore('settings', () => {
     compactView.value = !compactView.value
   }
 
+  function setUsername(username) {
+    wikimediaUsername.value = username
+  }
+
   function loadSetting(key, defaultValue) {
     const stored = localStorage.getItem(key)
     return stored !== null ? JSON.parse(stored) : defaultValue
@@ -65,5 +69,6 @@ export const useSettingsStore = defineStore('settings', () => {
     wikimediaUsername,
     compactView,
     toggleCompactView,
+    setUsername,
   }
 })
