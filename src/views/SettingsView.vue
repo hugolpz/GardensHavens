@@ -42,6 +42,14 @@
           </label>
 
           <label class="setting-option">
+            <input v-model="settings.showRangeMap" type="checkbox" class="setting-checkbox" />
+            <span class="setting-label"
+              >{{ $t('settings-visibility-item-range') }} (Experimental programmatic maps, GBIF
+              data)</span
+            >
+          </label>
+
+          <label class="setting-option">
             <input
               v-model="settings.showConservationStatus"
               type="checkbox"
@@ -56,7 +64,7 @@
               type="checkbox"
               class="setting-checkbox"
             />
-            <span class="setting-label">{{ $t('settings-visibility-description-medium') }}</span>
+            <span class="setting-label">{{ $t('settings-visibility-description-short') }}</span>
           </label>
 
           <label class="setting-option">

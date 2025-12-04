@@ -5,6 +5,7 @@ export const useSettingsStore = defineStore('settings', () => {
   // Load settings from localStorage or use defaults
   const showTaxonImage = ref(loadSetting('showTaxonImage', true))
   const showTaxonRange = ref(loadSetting('showTaxonRange', true))
+  const showRangeMap = ref(loadSetting('showRangeMap', false))
   const showConservationStatus = ref(loadSetting('showConservationStatus', true))
   const showShortDescription = ref(loadSetting('showShortDescription', false))
   const showLongDescription = ref(loadSetting('showLongDescription', true))
@@ -21,6 +22,10 @@ export const useSettingsStore = defineStore('settings', () => {
 
   watch(showTaxonRange, (value) => {
     saveSetting('showTaxonRange', value)
+  })
+
+  watch(showRangeMap, (value) => {
+    saveSetting('showRangeMap', value)
   })
 
   watch(showConservationStatus, (value) => {
@@ -64,6 +69,7 @@ export const useSettingsStore = defineStore('settings', () => {
   return {
     showTaxonImage,
     showTaxonRange,
+    showRangeMap,
     showConservationStatus,
     showShortDescription,
     showLongDescription,

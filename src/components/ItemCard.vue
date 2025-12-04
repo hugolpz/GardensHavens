@@ -43,6 +43,13 @@
           {{ $t('settings-visibility-item-range') }}
         </div>
         <img :src="cardData.rangeMap" :alt="`Range of ${cardData.taxonName}`" class="image" />
+
+        <RangeMap
+          v-if="settings.showRangeMap"
+          :binomial="`${binomialName}`"
+          :title="`${binomialName}`"
+          :maxOccurrences="10000"
+        />
       </div>
 
       <!-- Short Description -->
@@ -121,7 +128,7 @@ import {
   getCategoryEmoji,
 } from '@/utils/assessCategory'
 import { useSettingsStore } from '@/stores/settings'
-//import RangeMap from './RangeMap.vue'
+import RangeMap from './RangeMap.vue'
 import StatusIUCN from './StatusIUCN.vue'
 
 const props = defineProps({
