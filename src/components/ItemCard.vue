@@ -48,8 +48,7 @@
       <!-- Short Description -->
       <div
         v-if="
-          cardData.shortDescription ||
-          (settings.showMediumDescription && cardData.mediumDescription)
+          settings.showShortDescription && (cardData.shortDescription || cardData.mediumDescription)
         "
         class="short-description"
       >
@@ -57,7 +56,9 @@
           {{ $t('settings-visibility-description-short') }}
         </div>
         <div class="description-content">
-          wd:{{ cardData.shortDescription }}<br />wp:{{ cardData.mediumDescription }}
+          {{ cardData.shortDescription ? 'wd: ' + cardData.shortDescription : '' }}
+          {{ cardData.shortDescription && cardData.mediumDescription ? '<br />':'' }}
+          {{ cardData.mediumDescription ? 'wp: ' + cardData.mediumDescription : '' }}
         </div>
       </div>
 
@@ -71,7 +72,7 @@
 
       <!-- IUCN Status -->
       <div v-if="settings.showConservationStatus" class="uicn-image">
-        <UicnStatus :binomial="`${binomialName}`" />
+        <StatusIUCN :binomial="`${binomialName}`" />
       </div>
 
       <!-- Card Footer -->
@@ -120,7 +121,7 @@ import {
   getCategoryEmoji,
 } from '@/utils/assessCategory'
 import { useSettingsStore } from '@/stores/settings'
-import UicnStatus from './StatusIUCN.vue'
+//import RangeMap from './RangeMap.vue'
 import StatusIUCN from './StatusIUCN.vue'
 
 const props = defineProps({

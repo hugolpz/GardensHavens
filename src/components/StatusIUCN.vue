@@ -16,6 +16,7 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
+import { getTaxonKey, getIucnStatus } from '@/utils/gbif'
 
 // Define the component properties
 const props = defineProps({
@@ -36,9 +37,6 @@ const status = ref(null) // The two-letter code (LC, EN, CR, etc.)
 const isLoading = ref(false)
 
 // --- Constants ---
-
-// Base URL for the GBIF Species API
-const GBIF_API_BASE = 'https://api.gbif.org/v1/species'
 
 // Mapping between the GBIF/IUCN full status name and the two-letter code
 const STATUS_MAP = [
@@ -123,53 +121,6 @@ const statusImagePath = computed(() => {
 // --- API Logic ---
 
 /**
- * Step 1: Matches the binomial name to a GBIF Backbone taxonKey.
- * @param {string} name - The species binomial name.
- * @returns {Promise<number | null>} The GBIF taxonKey or null if no match.
- */
-async function getTaxonKey(name) {
-  const matchUrl = `${GBIF_API_BASE}/match?name=${encodeURIComponent(name)}`
-
-  try {
-    const response = await fetch(matchUrl)
-    if (!response.ok) throw new Error(`GBIF Match API error: ${response.statusText}`)
-
-    const data = await response.json()
-
-    // Check if a confident match was found
-    if (data.confidence > 90 && data.status === 'ACCEPTED' && data.usageKey) {
-      return data.usageKey
-    }
-    return null
-  } catch (error) {
-    console.error(`Error in GBIF Taxon Key lookup for ${name}:`, error)
-    return null
-  }
-}
-
-/**
- * Step 2: Fetches the IUCN status using the GBIF taxonKey.
- * @param {number} key - The GBIF taxonKey.
- * @returns {Promise<string | null>} The two-letter IUCN status code (e.g., 'LC') or null.
- */
-async function fetchiucnStatus(key) {
-  // Ex: https://api.gbif.org/v1/species/2440447/iucnRedListCategory
-  const statusUrl = `${GBIF_API_BASE}/${key}/iucnRedListCategory`
-
-  try {
-    const response = await fetch(statusUrl)
-    if (!response.ok) throw new Error(`GBIF Status API error: ${response.statusText}`)
-
-    const data = await response.json()
-
-    return data.code || null
-  } catch (error) {
-    console.error(`Error fetching IUCN status for key ${key}:`, error)
-    return null
-  }
-}
-
-/**
  * Main function to execute the two-step API call.
  */
 async function loadStatus() {
@@ -183,7 +134,7 @@ async function loadStatus() {
 
   if (key) {
     // 2. Fetch the IUCN Status
-    status.value = await fetchiucnStatus(key)
+    status.value = await getIucnStatus(key)
   } else {
     console.warn(`Could not find a reliable GBIF match for: ${props.binomial}`)
   }

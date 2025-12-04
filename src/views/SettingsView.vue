@@ -52,7 +52,7 @@
 
           <label class="setting-option">
             <input
-              v-model="settings.showMediumDescription"
+              v-model="settings.showShortDescription"
               type="checkbox"
               class="setting-checkbox"
             />
