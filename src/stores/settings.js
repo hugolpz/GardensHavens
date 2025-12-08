@@ -10,11 +10,40 @@ export const useSettingsStore = defineStore('settings', () => {
   const showShortDescription = ref(loadSetting('showShortDescription', false))
   const showLongDescription = ref(loadSetting('showLongDescription', true))
   const showCardFooter = ref(loadSetting('showCardFooter', true))
-  const wikimediaUsername = ref(loadSetting('wikimedia-username', ''))
+  const wikimediaUsername = ref(loadSetting('wikimediaUsername', ''))
+  const isWikimedian = ref(false)
 
   // Detect mobile and set default compact view
   const isMobile = window.innerWidth <= 768
   const compactView = ref(loadSetting('compactView', isMobile))
+
+  /**
+   * Check if a Wikimedia username exists
+   * @param {string} username - The username to check
+   * @returns {Promise<boolean>} - True if user exists, false otherwise
+   */
+  async function wikimediaUsernameExists(username) {
+    if (!username || username.trim() === '') {
+      return false
+    }
+
+    try {
+      const apiUrl = `https://meta.wikimedia.org/w/api.php?action=query&list=users&ususers=${encodeURIComponent(username)}&usprop=registration&format=json&origin=*`
+      const response = await fetch(apiUrl)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      const userInfo = data.query.users[0]
+
+      return userInfo && userInfo.userid ? true : false
+    } catch (error) {
+      console.error('Error checking Wikimedia username:', error)
+      return false
+    }
+  }
 
   // Watch for changes and persist to localStorage
   watch(showTaxonImage, (value) => {
@@ -45,8 +74,9 @@ export const useSettingsStore = defineStore('settings', () => {
     saveSetting('showCardFooter', value)
   })
 
-  watch(wikimediaUsername, (value) => {
-    saveSetting('wikimedia-username', value)
+  watch(wikimediaUsername, async (value) => {
+    saveSetting('wikimediaUsername', value)
+    isWikimedian.value = await wikimediaUsernameExists(value)
   })
 
   watch(compactView, (value) => {
@@ -57,9 +87,11 @@ export const useSettingsStore = defineStore('settings', () => {
     compactView.value = !compactView.value
   }
 
-  function setUsername(username) {
+  async function setUsername(username) {
     wikimediaUsername.value = username
-    saveSetting('wikimedia-username', username)
+    saveSetting('wikimediaUsername', username)
+    // Update isWikimedian when username is set
+    isWikimedian.value = await wikimediaUsernameExists(username)
   }
 
   function loadSetting(key, defaultValue) {
@@ -80,6 +112,7 @@ export const useSettingsStore = defineStore('settings', () => {
     showLongDescription,
     showCardFooter,
     wikimediaUsername,
+    isWikimedian,
     compactView,
     toggleCompactView,
     setUsername,

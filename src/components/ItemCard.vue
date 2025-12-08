@@ -432,6 +432,7 @@ watch(locale, () => {
   background-color: #f0f0f0;
   border-top: 1px solid #e0e0e0;
   flex-shrink: 0;
+  margin-top: auto;
 }
 
 .footer-link {

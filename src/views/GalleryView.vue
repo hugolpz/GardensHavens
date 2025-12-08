@@ -28,7 +28,7 @@
                 :section="`${index + 1}`"
                 page="Special:MyPage/WikiNaturalist"
                 editintro="WikiNaturalist/Guideline"
-                editintro="WikiNaturalist/Preload"
+                preload="WikiNaturalist/Placeholder"
               />
             </div>
             <div v-if="collection.lat && collection.lon" class="collection-coordinates">

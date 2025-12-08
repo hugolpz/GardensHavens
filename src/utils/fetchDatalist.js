@@ -85,7 +85,7 @@ export async function fetchDatalist() {
 async function getWikimediaUsername() {
   try {
     // Check if user has manually set their username in localStorage
-    const manualUsername = localStorage.getItem('wikimedia-username')
+    const manualUsername = localStorage.getItem('wikimediaUsername')
     if (manualUsername) {
       console.log(`Using manually set username: ${manualUsername}`)
       return manualUsername
