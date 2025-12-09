@@ -116,6 +116,16 @@
           <img src="/assets/gbif.svg" alt="GBIF" class="footer-icon" />
         </a>
 
+        <a
+          :href="`https://mol.org/dashboard/species/info/${binomialName}`"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-link"
+          title="Map of Life Species Page"
+        >
+          <img src="/assets/mapoflife.svg" alt="MapOfLife" class="footer-icon" />
+        </a>
+
         <button
           @click="copyShareLink"
           class="footer-link footer-button"
