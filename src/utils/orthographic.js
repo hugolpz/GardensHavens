@@ -158,7 +158,7 @@ export const createOrthographicGlobe = (hookId, width, title, lat, lon) => {
       .attr('class', 'location-marker')
       .attr('cx', coords[0])
       .attr('cy', coords[1])
-      .attr('r', 3)
+      .attr('r', 2)
       .style('fill', '#B10000')
       .style('pointer-events', 'none')
   }

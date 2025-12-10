@@ -267,6 +267,11 @@ watch(
   color: #495057;
 }
 
+.gallery-grid--compact ~ .collection-header .coordinates,
+.gallery-view:has(.gallery-grid--compact) .coordinates {
+  display: none;
+}
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
