@@ -31,15 +31,15 @@ if [ ! -f "$SVG_FILE" ]; then
   exit 1
 fi
 # Define the sizes for the logos
-SIZES=(16 32 48 64 72 96 128 180 192 256 512)
+SIZES=(16 32 48 64 72 96 128 180 192 256 512 1024)
 # Generate logos using either Inkscape or ImageMagick based on availability   
 if command -v inkscape &> /dev/null; then
-  echo "Using Inkscape to generate logos..."
+  echo "Using Inkscape to generate logos with transparency..."
   for size in "${SIZES[@]}"; do
-    inkscape -o "logo-${size}.png" -w "$size" -h "$size" "$SVG_FILE"
+    inkscape "$SVG_FILE" --export-type=png --export-width="$size" --export-height="$size" --export-filename="logo-${size}.png" --export-background-opacity=0
   done
 elif command -v convert &> /dev/null; then
-  echo "Using ImageMagick to generate logos..."
+  echo "Using ImageMagick to generate logos with transparency..."
   for size in "${SIZES[@]}"; do
     convert -background none -resize "${size}x${size}" "$SVG_FILE" "logo-${size}.png"
   done
